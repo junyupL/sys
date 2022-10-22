@@ -498,6 +498,12 @@ var (
 	procWTSEnumerateSessionsW                                = modwtsapi32.NewProc("WTSEnumerateSessionsW")
 	procWTSFreeMemory                                        = modwtsapi32.NewProc("WTSFreeMemory")
 	procWTSQueryUserToken                                    = modwtsapi32.NewProc("WTSQueryUserToken")
+
+	//changes made by me
+	procHeapAlloc                                           = modkernel32.NewProc("HeapAlloc")
+	procHeapFree                                            = modkernel32.NewProc("HeapFree")
+	procGetProcessHeap = modkernel32.NewProc("GetProcessHeap")
+	//
 )
 
 func cm_Get_DevNode_Status(status *uint32, problemNumber *uint32, devInst DEVINST, flags uint32) (ret CONFIGRET) {
@@ -4300,3 +4306,34 @@ func WTSQueryUserToken(session uint32, token *Token) (err error) {
 	}
 	return
 }
+
+
+//changes made by me
+
+func HeapFree(heap Handle, flags uint32, address uintptr /*Handle?*/) (err error) {
+	r1, _, e1 := syscall.Syscall(procHeapFree.Addr(), 3, uintptr(heap), uintptr(flags), uintptr(address))
+	if r1 == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+
+func HeapAlloc(process Handle, flags uint32, length uint32) (ptr uintptr, err error) {
+	r0, _, e1 := syscall.Syscall(procLocalAlloc.Addr(), 2, uintptr(flags), uintptr(length), 0)
+	ptr = uintptr(r0)
+	if ptr == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func GetProcessHeap() (process Handle, err error) {
+	r1, _, e1 := syscall.Syscall(procGetProcessHeap.Addr(), 0, 0, 0, 0)
+	process = Handle(r1)
+	if process == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+//
