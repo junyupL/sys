@@ -18,8 +18,8 @@ import (
 	"testing"
 	"time"
 
-	"golang.org/x/sys/windows/svc"
-	"golang.org/x/sys/windows/svc/mgr"
+	"github.com/junyupL/sys/windows/svc"
+	"github.com/junyupL/sys/windows/svc/mgr"
 )
 
 func getState(t *testing.T, s *mgr.Service) svc.State {

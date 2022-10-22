@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	"golang.org/x/sys/internal/unsafeheader"
+	"github.com/junyupL/sys/internal/unsafeheader"
 )
 
 const (

@@ -22,8 +22,8 @@ import (
 	"time"
 	"unsafe"
 
-	"golang.org/x/sys/internal/unsafeheader"
-	"golang.org/x/sys/windows"
+	"github.com/junyupL/sys/internal/unsafeheader"
+	"github.com/junyupL/sys/windows"
 )
 
 func TestWin32finddata(t *testing.T) {

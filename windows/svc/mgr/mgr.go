@@ -17,8 +17,8 @@ import (
 	"unicode/utf16"
 	"unsafe"
 
-	"golang.org/x/sys/internal/unsafeheader"
-	"golang.org/x/sys/windows"
+	"github.com/junyupL/sys/internal/unsafeheader"
+	"github.com/junyupL/sys/windows"
 )
 
 // Mgr is used to manage Windows service.

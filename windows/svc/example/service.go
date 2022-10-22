@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/sys/windows/svc"
-	"golang.org/x/sys/windows/svc/debug"
-	"golang.org/x/sys/windows/svc/eventlog"
+	"github.com/junyupL/sys/windows/svc"
+	"github.com/junyupL/sys/windows/svc/debug"
+	"github.com/junyupL/sys/windows/svc/eventlog"
 )
 
 var elog debug.Log
