@@ -500,8 +500,9 @@ var (
 	procWTSQueryUserToken                                    = modwtsapi32.NewProc("WTSQueryUserToken")
 
 	//changes made by me
-	procHeapAlloc                                           = modkernel32.NewProc("HeapAlloc")
-	procHeapFree                                            = modkernel32.NewProc("HeapFree")
+	procHeapReAlloc = modkernel32.NewProc("HeapReAlloc")
+	procHeapAlloc = modkernel32.NewProc("HeapAlloc")
+	procHeapFree = modkernel32.NewProc("HeapFree")
 	procGetProcessHeap = modkernel32.NewProc("GetProcessHeap")
 	//
 )
@@ -4313,6 +4314,16 @@ func WTSQueryUserToken(session uint32, token *Token) (err error) {
 func HeapFree(heap Handle, flags uint32, address uintptr /*Handle?*/) (err error) {
 	r1, _, e1 := syscall.Syscall(procHeapFree.Addr(), 3, uintptr(heap), uintptr(flags), uintptr(address))
 	if r1 == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+
+func HeapReAlloc(process Handle, flags uint32, address uintptr, length uint32) (ptr uintptr, err error) {
+	r0, _, e1 := syscall.Syscall6(procHeapReAlloc.Addr(), 4, uintptr(process), uintptr(flags), uintptr(address), uintptr(length), 0, 0)
+	ptr = uintptr(r0)
+	if ptr == 0 {
 		err = errnoErr(e1)
 	}
 	return
