@@ -4320,7 +4320,7 @@ func HeapFree(heap Handle, flags uint32, address uintptr /*Handle?*/) (err error
 
 
 func HeapAlloc(process Handle, flags uint32, length uint32) (ptr uintptr, err error) {
-	r0, _, e1 := syscall.Syscall(procLocalAlloc.Addr(), 2, uintptr(flags), uintptr(length), 0)
+	r0, _, e1 := syscall.Syscall(procHeapAlloc.Addr(), 3, uintptr(process), uintptr(flags), uintptr(length))
 	ptr = uintptr(r0)
 	if ptr == 0 {
 		err = errnoErr(e1)
